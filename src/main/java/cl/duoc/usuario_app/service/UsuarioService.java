@@ -10,13 +10,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
+
+import static org.antlr.v4.runtime.tree.xpath.XPath.findAll;
 
 @Service
 @Slf4j
 public class UsuarioService {
 
     private static final Logger log = LoggerFactory.getLogger(UsuarioService.class);
+
     @Autowired
     private UsuarioRepository usuarioRepository;
 
@@ -34,6 +36,10 @@ public class UsuarioService {
                     return new ResourceNotFoundException("No se encontró un usuario con ID: " + id);
                 });
     }
+
+    public Usuario obtenerPorCorreo(String correo) {
+        return usuarioRepository.findByCorreo(correo)
+                .orElseThrow(() -> new RuntimeException("Usuario no encontrado con el correo: " + correo));    }
 
     public Usuario guardarUsuario(Usuario usuario){
         Usuario usuarioGuardado = usuarioRepository.save(usuario);

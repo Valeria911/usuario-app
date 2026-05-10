@@ -5,6 +5,7 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDate;
 
@@ -40,7 +41,8 @@ public class Usuario {
     @Column(name = "ACTIVO", nullable = false)
     private Boolean activo;
 
-    @Column(name = "FECHA_REGISTRO", nullable = false)
+    @CreationTimestamp
+    @Column(name = "FECHA_REGISTRO", updatable = false, nullable = false)
     private LocalDate fechaRegistro;
 
     public Usuario() {

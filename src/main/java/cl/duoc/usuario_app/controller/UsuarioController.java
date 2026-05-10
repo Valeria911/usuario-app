@@ -32,9 +32,18 @@ public class UsuarioController {
         return ResponseEntity.ok(usuario);
     }
 
-    @PostMapping
-    public ResponseEntity<Usuario> crearUsuario(@Valid @RequestBody Usuario usuario) {
+    @GetMapping("/recuperar/{correo}")
+    public ResponseEntity<Usuario> obtenerPorCorreo(@RequestParam String correo) {
+        Usuario usuario = usuarioService.obtenerPorCorreo(correo);
+        if (usuario != null) {
+            return ResponseEntity.ok(usuario);
+        }
+        return ResponseEntity.notFound().build();
+    }
 
+    @PostMapping("/registro")
+    public ResponseEntity<Usuario> crearUsuario(@Valid @RequestBody Usuario usuario) {
+        usuario.setId(null);
         Usuario nuevoUsuario = usuarioService.guardarUsuario(usuario);
         return ResponseEntity.status(HttpStatus.CREATED).body(nuevoUsuario);
     }
